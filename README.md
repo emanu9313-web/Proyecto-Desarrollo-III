@@ -32,7 +32,7 @@ La URI predeterminada conecta con `mongodb://127.0.0.1:27017/univalle-shop`. Si 
 El caso de uso `CreateUserUseCase` recibe el puerto `UserRepository` mediante `@Inject(USER_REPOSITORY)`. Nest enlaza ese token con `MongoUserRepositoryAdapter`, que guarda y consulta usuarios usando Mongoose. El dominio y el caso de uso no dependen directamente de MongoDB.
 
 ```text
-src/users/
+src/users-service/
   domain/entities/user.entity.ts
   domain/ports/repositories/user.repository.ts
   application/use-cases/create-user.use-case.ts
