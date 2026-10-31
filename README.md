@@ -6,6 +6,7 @@ API backend de **Univalle Shop**, construida con Node.js, TypeScript y NestJS.
 
 - Node.js 20.19 o superior.
 - npm (incluido con Node.js).
+- MongoDB local o una instancia de MongoDB Atlas.
 
 ## Inicio rápido
 
@@ -15,7 +16,7 @@ Copy-Item .env.example .env # PowerShell; en macOS/Linux: cp .env.example .env
 npm run start:dev
 ```
 
-La API queda disponible en `http://localhost:3000`; `GET /` devuelve el estado de bienvenida.
+La URI predeterminada conecta con `mongodb://127.0.0.1:27017/univalle-shop`. Si usas Atlas, reemplaza `MONGODB_URI` en `.env` por la cadena de conexión de tu clúster. El servidor inicia cuando logra conectarse a MongoDB.
 
 ## Comandos
 
@@ -25,28 +26,24 @@ La API queda disponible en `http://localhost:3000`; `GET /` devuelve el estado d
 | `npm run build` | Compila TypeScript en `dist/`. |
 | `npm run start:prod` | Ejecuta la compilación de producción. |
 | `npm run typecheck` | Revisa los tipos sin generar archivos. |
-| `npm run lint` | Ejecuta ESLint sobre el código. |
 
-## Estructura
+## Módulo `users`
 
-El módulo `users` separa las reglas del dominio, los casos de uso y la adaptación a NestJS. El caso de uso depende del puerto `UserRepository`; el adaptador en memoria lo implementa para este primer paso. Así se puede reemplazar por persistencia real sin acoplar el dominio a la base de datos.
+El caso de uso `CreateUserUseCase` recibe el puerto `UserRepository` mediante `@Inject(USER_REPOSITORY)`. Nest enlaza ese token con `MongoUserRepositoryAdapter`, que guarda y consulta usuarios usando Mongoose. El dominio y el caso de uso no dependen directamente de MongoDB.
 
 ```text
-src/
-  app.module.ts
-  main.ts
-  users/
-    domain/
-      entities/user.entity.ts
-      ports/repositories/user.repository.ts
-    application/use-cases/create-user.use-case.ts
-    infrastructure/adapters/in-memory-user.repository.adapter.ts
-    users.controller.ts
-    users.module.ts
+src/users/
+  domain/entities/user.entity.ts
+  domain/ports/repositories/user.repository.ts
+  application/use-cases/create-user.use-case.ts
+  infrastructure/schemas/user.schema.ts
+  infrastructure/adapters/mongo-user.repository.adapter.ts
+  users.controller.ts
+  users.module.ts
 ```
 
-El endpoint inicial es `POST /users`, con cuerpo `{ "name": "Ana", "email": "ana@example.com" }`.
+El endpoint es `POST /api/users`, con cuerpo `{ "name": "Ana", "email": "ana@example.com" }`. El correo tiene un índice único en MongoDB.
 
 ## Desarrollo
 
-Las variables de entorno locales se configuran en `.env` a partir de `.env.example`. No se deben subir secretos al repositorio.
+Configura las variables locales en `.env` a partir de `.env.example`. No subas credenciales ni secretos al repositorio.

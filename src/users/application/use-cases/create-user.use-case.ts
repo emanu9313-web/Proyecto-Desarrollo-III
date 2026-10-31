@@ -1,10 +1,8 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { randomUUID } from 'node:crypto';
-import { User } from '../../domain/entities/user.entity';
-import {
-  USER_REPOSITORY,
-  UserRepository,
-} from '../../domain/ports/repositories/user.repository';
+import { ConflictException, Inject, Injectable } from "@nestjs/common";
+import { randomUUID } from "node:crypto";
+import { User } from "../../domain/entities/user.entity";
+import { USER_REPOSITORY } from "../../domain/ports/repositories/user.repository";
+import type { UserRepository } from "../../domain/ports/repositories/user.repository";
 
 export interface CreateUserInput {
   name: string;
@@ -23,7 +21,7 @@ export class CreateUserUseCase {
     const existingUser = await this.userRepository.findByEmail(email);
 
     if (existingUser) {
-      throw new ConflictException('Ya existe un usuario con ese correo.');
+      throw new ConflictException("Ya existe un usuario con ese correo.");
     }
 
     const user = User.create({

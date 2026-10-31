@@ -1,7 +1,21 @@
-import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { MongooseModule } from "@nestjs/mongoose";
+import { UsersModule } from "./users/users.module";
 
 @Module({
-  imports: [UsersModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        uri:
+          config.get<string>("MONGODB_URI") ??
+          "mongodb://127.0.0.1:27017/univalle-shop",
+      }),
+    }),
+    UsersModule,
+  ],
 })
 export class AppModule {}

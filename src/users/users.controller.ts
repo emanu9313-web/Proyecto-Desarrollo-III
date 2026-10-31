@@ -1,6 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { IsEmail, IsString, MinLength } from 'class-validator';
-import { CreateUserUseCase } from './application/use-cases/create-user.use-case';
+import { Body, Controller, Post } from "@nestjs/common";
+import { IsEmail, IsString, MinLength } from "class-validator";
+import { CreateUserUseCase } from "./application/use-cases/create-user.use-case";
 
 class CreateUserDto {
   @IsString()
@@ -11,7 +11,7 @@ class CreateUserDto {
   email!: string;
 }
 
-@Controller('users')
+@Controller("users")
 export class UsersController {
   constructor(private readonly createUser: CreateUserUseCase) {}
 
