@@ -1,49 +1,59 @@
-# univalle-shop-api
+# Univalle Shop
 
-API backend de **Univalle Shop**, construida con Node.js, TypeScript y NestJS.
+Tienda virtual académica para estudiantes, docentes y personal administrativo de la Universidad del Valle. La Entrega 1 integra autenticación institucional, un API Gateway y un frontend React con módulos mock.
+
+## Arquitectura
+
+- `services/auth-service`: NestJS, MongoDB y arquitectura hexagonal para login, JWT y consulta de usuario.
+- `services/api-gateway`: NestJS; único punto HTTP que usa el frontend y proxy de `/api/auth/*`.
+- `frontend`: React, Vite y TypeScript; catálogo, producto, búsqueda, recomendados, carrito, pedidos y checkout de demostración.
+- `users-db`: MongoDB privada del servicio de autenticación.
+- `specs/`: constitución, requisitos, plan y tareas aprobados antes de implementar.
+
+El registro de usuarios está fuera del alcance de esta entrega, según la resolución de alcance aprobada y documentada en `specs/00-constitution.md`.
 
 ## Requisitos
 
-- Node.js 20.19 o superior.
-- npm (incluido con Node.js).
-- MongoDB local o una instancia de MongoDB Atlas.
+Docker Engine con Docker Compose para levantar el sistema completo. Para desarrollo local se requiere Node.js 24 LTS y MongoDB.
 
-## Inicio rápido
+## Ejecutar con Docker Compose
 
-```bash
-npm install
-Copy-Item .env.example .env # PowerShell; en macOS/Linux: cp .env.example .env
-npm run start:dev
-```
+1. Copia `.env.example` como `.env`.
+2. Reemplaza `JWT_SECRET` por una cadena aleatoria larga.
+3. Desde la raíz ejecuta `docker compose up --build`.
+4. Abre `http://localhost:3000`.
 
-La URI predeterminada conecta con `mongodb://127.0.0.1:27017/univalle-shop`. Si usas Atlas, reemplaza `MONGODB_URI` en `.env` por la cadena de conexión de tu clúster. El servidor inicia cuando logra conectarse a MongoDB.
+Usuarios de desarrollo (el seed no corre en producción):
 
-## Comandos
+| Rol | Correo | Contraseña |
+| --- | --- | --- |
+| Estudiante | `ana.gomez@correounivalle.edu.co` | `Univalle2026*` |
+| Docente | `carlos.ruiz@correounivalle.edu.co` | `Univalle2026*` |
+| Administrativo | `marta.diaz@correounivalle.edu.co` | `Univalle2026*` |
 
-| Comando | Acción |
-| --- | --- |
-| `npm run start:dev` | Ejecuta el servidor en modo desarrollo con recarga. |
-| `npm run build` | Compila TypeScript en `dist/`. |
-| `npm run start:prod` | Ejecuta la compilación de producción. |
-| `npm run typecheck` | Revisa los tipos sin generar archivos. |
+Frontend: `http://localhost:3000`. Gateway: `http://localhost:8080`; salud en `/health`. Auth service: puerto `3001`; salud en `/health`. El login debe realizarse por el Gateway en `POST /api/auth/login`.
 
-## Módulo `users`
+## Desarrollo local
 
-El caso de uso `CreateUserUseCase` recibe el puerto `UserRepository` mediante `@Inject(USER_REPOSITORY)`. Nest enlaza ese token con `MongoUserRepositoryAdapter`, que guarda y consulta usuarios usando Mongoose. El dominio y el caso de uso no dependen directamente de MongoDB.
+1. Copia `.env.example` a `.env`. Para MongoDB local, usa `MONGO_URI=mongodb://127.0.0.1:27017/univalle_users`.
+2. Instala las dependencias desde la raíz: `npm install`.
+3. En terminales separadas ejecuta `npm run dev:auth`, `npm run dev:gateway` y `npm run dev:frontend`.
 
-```text
-src/users-service/
-  domain/entities/user.entity.ts
-  domain/ports/repositories/user.repository.ts
-  application/use-cases/create-user.use-case.ts
-  infrastructure/schemas/user.schema.ts
-  infrastructure/adapters/mongo-user.repository.adapter.ts
-  users.controller.ts
-  users.module.ts
-```
+El frontend usa `VITE_API_URL` para la URL pública del Gateway. El login acepta únicamente correos `@correounivalle.edu.co`. Los datos mock de comercio son locales; no se realiza ningún pago real.
 
-El endpoint es `POST /api/users`, con cuerpo `{ "name": "Ana", "email": "ana@example.com" }`. El correo tiene un índice único en MongoDB.
+## Configuración
 
-## Desarrollo
+Consulta `.env.example`. No guardes secretos reales en GitHub. `JWT_SECRET` debe ser idéntico en auth-service y Gateway. El JWT expira en una hora. `FRONTEND_ORIGIN` limita CORS. Cada servicio mantiene su propia configuración y despliegue en Docker Compose.
 
-Configura las variables locales en `.env` a partir de `.env.example`. No subas credenciales ni secretos al repositorio.
+## Documentación SDD
+
+- [Constitución](specs/00-constitution.md)
+- [Especificación de autenticación](specs/01-auth-service/spec.md)
+- [Plan de autenticación](specs/01-auth-service/plan.md)
+- [Tareas de autenticación](specs/01-auth-service/tasks.md)
+- [Especificación del API Gateway](specs/02-api-gateway/spec.md)
+- [Especificación del frontend](specs/03-frontend/spec.md)
+
+## Build
+
+`npm run build` compila los workspaces de auth-service, Gateway y frontend.
