@@ -291,9 +291,10 @@ function ProductPage() {
           <h1>{product.name}</h1>
           <p className="press-price">{money(product.price)} {product.oldPrice && <del>{money(product.oldPrice)}</del>}</p>
           <p>{product.description}</p>
+          <details className="product-help"><summary>¿Cómo continúo?</summary><p>Revisa tus productos en el carrito y continúa con los datos de entrega. El checkout es de prueba y no realiza cobros reales.</p></details>
           <p aria-label={`Valoración ${product.rating} de 5`}>★ {product.rating.toFixed(1)} / 5</p>
           <button type="button" className="press-button" onClick={() => cart.add(product)}>Agregar al carrito</button>
-          <div className="bag-feedback" role="status">{quantity > 0 && <Link to="/carrito">Ver carrito ({quantity} de este producto)</Link>}</div>
+          <div className="bag-feedback" role="status">{quantity > 0 && <><p>¡Listo! Tienes {quantity} unidades en el carrito.</p><Link to="/carrito">Revisar mi carrito</Link></>}</div>
         </section>
       </div>
     </main>
@@ -321,7 +322,11 @@ function PaymentPage() {
 }
 
 function Layout() {
-  return <><Header /><Routes><Route path="/login" element={<LoginPage />} /><Route path="/*" element={<ProtectedRoute><><Routes><Route path="/" element={<HomePage />} /><Route path="/buscar" element={<SearchPage />} /><Route path="/recomendados" element={<RecommendedPage />} /><Route path="/producto/:id" element={<ProductPage />} /><Route path="/carrito" element={<CartPage />} /><Route path="/pedidos" element={<OrdersPage />} /><Route path="/pago" element={<PaymentPage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes><Footer /></></ProtectedRoute>} /></Routes></>;
+  const location = useLocation();
+  useEffect(() => {
+    if (!location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [location.pathname]);
+  return <>{location.pathname.replace(/\/+$/, '') !== '/login' && <Header />}<Routes><Route path="/login" element={<LoginPage />} /><Route path="/*" element={<ProtectedRoute><><Routes><Route path="/" element={<HomePage />} /><Route path="/buscar" element={<SearchPage />} /><Route path="/recomendados" element={<RecommendedPage />} /><Route path="/producto/:id" element={<ProductPage />} /><Route path="/carrito" element={<CartPage />} /><Route path="/pedidos" element={<OrdersPage />} /><Route path="/pago" element={<PaymentPage />} /><Route path="*" element={<Navigate to="/" replace />} /></Routes><Footer /></></ProtectedRoute>} /></Routes></>;
 }
 
 export default function App() { return <Layout />; }

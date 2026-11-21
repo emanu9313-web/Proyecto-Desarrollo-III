@@ -215,6 +215,9 @@ html { scroll-padding-top: calc(var(--shop-header-height, 6.5rem) + .5rem); }
 .press-detail-info .press-price { font: 700 1.6rem var(--display); }
 .press-price del { font-size: 1rem; font-weight: 400; }
 .bag-feedback { min-height: 2.6rem; padding-top: .8rem; }
+.product-help { border-top: 1px solid var(--gray-300); margin-top: 1rem; padding-block: 1rem; font-size: 1rem; line-height: 1.6; }
+.product-help summary { cursor: pointer; font-weight: 700; }
+.bag-feedback p { margin: 0 0 .5rem; font-size: 1rem; }
 .cart-summary, .checkout-card aside { background: var(--white); border: 1px solid var(--black); border-top: .35rem solid var(--red); }
 .cart-line .cart-thumb { overflow: hidden; }
 .cart-product b, .cart-line-price, .cart-summary p, .checkout-card aside p { font-size: 1rem; }
