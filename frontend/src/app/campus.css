@@ -97,7 +97,7 @@
   cursor: pointer;
 }
 .edition-switch button:hover { color: var(--black); background: var(--white); }
-.campus-catalog { padding-block: clamp(2.6rem, 6vw, 6rem); scroll-margin-top: 5rem; }
+.campus-catalog { padding-block: clamp(2.6rem, 6vw, 6rem); }
 .campus-catalog-heading {
   display: flex;
   align-items: baseline;
@@ -151,7 +151,21 @@
 .shop-card h3 a:hover, .edition-caption a:hover { text-decoration: underline; }
 .shop-card strong { font-size: 1rem; font-variant-numeric: tabular-nums; }
 .campus-detail { padding-block: 1.5rem 5rem; }
+html { scroll-padding-top: calc(var(--shop-header-height, 6.5rem) + .5rem); }
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 .15rem 0 rgba(0, 0, 0, .08);
+}
+.header-actions [aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-color: var(--red);
+  text-underline-offset: .4em;
+  text-decoration-thickness: .15em;
+}
 .header-actions .avatar { background: var(--black); color: var(--white); }
+.added-stamp { display: none; }
 .orders-link, .basket-link {
   display: inline-flex;
   align-items: center;
@@ -230,7 +244,37 @@
 .edition :focus-visible, .campus-intro :focus-visible { outline-color: var(--white); }
 .shop-card-image > a:focus-visible { outline-offset: -4px; }
 @media (prefers-reduced-motion: no-preference) {
-  .edition-print { animation: print-in .35s ease-out both; }
+  .edition-print { animation: print-in .35s ease-out backwards; }
+  @media (hover: hover) and (pointer: fine) {
+    .edition-print {
+      transform: perspective(45rem) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transition: transform .15s ease-out;
+    }
+  }
+  .basket-count { animation: bag-bounce .38s ease-out; }
+  @keyframes bag-bounce {
+    40% { transform: translateY(-.2rem) scale(1.18) rotate(6deg); }
+  }
+  .shop-add:active { transform: scale(.92); }
+  .added-stamp {
+    display: block;
+    position: absolute;
+    right: .7rem;
+    bottom: 3.65rem;
+    pointer-events: none;
+    background: var(--black);
+    color: var(--white);
+    padding: .3rem .6rem;
+    font-weight: 700;
+    font-size: .875rem;
+    opacity: 0;
+    animation: stamp-print 1.1s ease-out;
+  }
+  @keyframes stamp-print {
+    0% { opacity: 0; transform: translateY(.6rem) scale(1.12) rotate(-9deg); }
+    18%, 75% { opacity: 1; transform: rotate(-4deg); }
+    100% { opacity: 0; transform: translateY(-.5rem) rotate(-4deg); }
+  }
   @keyframes print-in { from { transform: translateY(.7rem) rotate(3deg); opacity: .55; } }
   .shop-card-image img { transition: transform .35s ease; }
   .shop-card-image a:is(:hover, :focus-visible) img { transform: scale(1.045); }
@@ -251,7 +295,7 @@
   .edition-print { width: min(50vw, 14rem); padding: .45rem; }
   .edition-controls { border-left: 0; }
   .edition-caption { column-gap: .5rem; }
-  .campus-catalog { scroll-margin-top: 1rem; }
+  .campus-catalog { padding-top: 2.6rem; }
   .campus-filters { gap: .35rem; }
   .campus-filters button { padding-inline: .75rem; }
   .campus-login-print { width: 29%; right: 6%; bottom: 16%; }
@@ -262,5 +306,5 @@
   .edition-switch { flex-shrink: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .campus-home, .shop-card, .campus-detail { scroll-behavior: auto; }
+  html { scroll-behavior: auto; }
 }

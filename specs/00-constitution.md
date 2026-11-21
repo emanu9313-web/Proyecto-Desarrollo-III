@@ -36,7 +36,7 @@ Trabajar en cambios pequeños y documentar avances. La guía propone commits con
 - Funcional: autenticación, API Gateway que enruta autenticación y frontend.
 - UI con datos mock: catálogo, detalle, búsqueda, recomendados, carrito, pedidos y pago.
 - Fuera de alcance: backends de catálogo/pedidos/pagos/búsqueda/recomendación, pasarela real, Kubernetes y recuperación de contraseña.
-- Contenedores: `users-db`, `auth-service`, `api-gateway` y `frontend`.
+- Contenedores: `users-db`, `users-service`, `catalog-service`, `orders-service`, `api-gateway` y `frontend`.
 
 ## Discrepancia pendiente
 

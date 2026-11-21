@@ -4,13 +4,16 @@
   "private": true,
   "description": "Univalle Shop: microservicios y microfrontend",
   "engines": { "node": ">=22.12.0" },
-  "workspaces": ["services/auth-service", "services/api-gateway", "frontend"],
+  "workspaces": ["services/*", "frontend"],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "dev:auth": "npm run start:dev --workspace @univalle/auth-service",
+    "dev:users": "npm run start:dev --workspace @univalle/users-service",
+    "dev:catalog": "npm run start:dev --workspace @univalle/catalog-service",
+    "dev:orders": "npm run start:dev --workspace @univalle/orders-service",
+    "dev:auth": "npm run start:dev --workspace @univalle/users-service",
     "dev:gateway": "npm run start:dev --workspace @univalle/api-gateway",
     "dev:frontend": "npm run dev --workspace @univalle/frontend",
-    "start:dev": "npm run start:dev --workspace @univalle/auth-service"
+    "start:dev": "npm run start:dev --workspace @univalle/users-service"
   }
 }

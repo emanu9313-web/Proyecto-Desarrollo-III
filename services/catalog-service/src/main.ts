@@ -1,0 +1,10 @@
+import 'reflect-metadata';
+import { NestFactory } from '@nestjs/core';
+import { CatalogModule } from './catalog.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(CatalogModule);
+  await app.listen(Number(process.env.PORT ?? 3002), '0.0.0.0');
+}
+
+void bootstrap();

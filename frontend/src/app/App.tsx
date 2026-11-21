@@ -1,5 +1,5 @@
 import { FormEvent, ReactNode, useEffect, useRef, useState } from 'react';
-import { Link, Navigate, Route, Routes, useLocation, useNavigate, useSearchParams, useParams } from 'react-router-dom';
+import { Link, NavLink, Navigate, Route, Routes, useLocation, useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { useCart } from './CartContext';
 import { catalogRepository } from '../modules/catalog/adapters/mock-catalog.repository';
@@ -25,11 +25,23 @@ function Header() {
   const { user, signOut } = useAuth();
   const cart = useCart();
   const navigate = useNavigate();
-  const location = useLocation();
+  const header = useRef<HTMLElement>(null);
   const [search, setSearch] = useState('');
-  if (location.pathname === '/login') return null;
+  useEffect(() => {
+    const element = header.current;
+    if (!element) return;
+    const root = document.documentElement;
+    const measure = () => root.style.setProperty('--shop-header-height', `${element.offsetHeight}px`);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty('--shop-header-height');
+    };
+  }, []);
   return <>
-    <header className="site-header">
+    <header ref={header} className="site-header">
       <Link to="/" className="brand" aria-label="Univalle Shop, inicio"><span className="brand-mark">u</span><span>univalle<span className="brand-light">shop</span><small>TIENDA UNIVERSITARIA</small></span></Link>
       <nav className="main-nav" aria-label="Navegación principal">
         <Link to="/">Inicio</Link><Link to="/?categoria=Ropa">Ropa</Link><Link to="/?categoria=Accesorios">Accesorios</Link><Link to="/recomendados">Recomendados</Link>
@@ -38,10 +50,14 @@ function Header() {
         <span aria-hidden="true">⌕</span><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="¿Qué estás buscando?" aria-label="Buscar productos" /><button aria-label="Enviar búsqueda">↗</button>
       </form>
       <div className="header-actions">
-        <Link className="orders-link" to="/pedidos">Pedidos</Link>
-        <Link className="basket-link" to="/carrito" aria-label={`Carrito, ${cart.count} productos`}>Carrito <span>{cart.count}</span></Link>
-        <div className="user-chip"><span className="avatar">{user?.fullName?.[0] ?? 'U'}</span><span className="user-name">{user?.fullName?.split(' ')[0]}</span></div>
-        <button className="logout" onClick={signOut}>Salir</button>
+        <NavLink className="orders-link" to="/pedidos">Pedidos</NavLink>
+        <NavLink className="basket-link" to="/carrito" aria-label={`Carrito, ${cart.count} productos`}>
+          Carrito <span key={cart.count} className={cart.count ? 'basket-count' : undefined}>{cart.count}</span>
+        </NavLink>
+        {user && <>
+          <div className="user-chip"><span className="avatar">{user.fullName[0]}</span><span className="user-name">{user.fullName.split(' ')[0]}</span></div>
+          <button className="logout" onClick={signOut}>Salir</button>
+        </>}
       </div>
     </header>
   </>;
@@ -55,6 +71,11 @@ function ProductCard({ product }: { product: Product }) {
   const cart = useCart();
   const quantity = cart.items.find((line) => line.product.id === product.id)?.quantity ?? 0;
   const detailUrl = `/producto/${product.id}`;
+  const [additions, setAdditions] = useState(0);
+  function addToCart() {
+    cart.add(product);
+    setAdditions((count) => count + 1);
+  }
 
   return (
     <article className="shop-card">
@@ -62,7 +83,8 @@ function ProductCard({ product }: { product: Product }) {
         <Link to={detailUrl} aria-label={`Ver ${product.name}`}>
           <ProductPhoto product={product} />
         </Link>
-        <button className="shop-add" type="button" onClick={() => cart.add(product)}
+        {additions > 0 && <span key={additions} aria-hidden="true" className="added-stamp">Al carrito ✓</span>}
+        <button className="shop-add" type="button" onClick={addToCart}
           aria-label={`Agregar ${product.name} al carrito`}>
           <span aria-hidden="true">+</span>
         </button>
@@ -99,7 +121,21 @@ function CampusCover({ products }: { products: Product[] }) {
       </div>
       {product && (
         <div className="edition" aria-label="Productos destacados">
-          <div className="edition-stage">
+          <div className="edition-stage"
+            onPointerMove={(event) => {
+              if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+              const stage = event.currentTarget;
+              const bounds = stage.getBoundingClientRect();
+              const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+              const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+              stage.style.setProperty('--tilt-y', `${x * 12}deg`);
+              stage.style.setProperty('--tilt-x', `${-y * 10}deg`);
+            }}
+            onPointerLeave={(event) => {
+              event.currentTarget.style.removeProperty('--tilt-x');
+              event.currentTarget.style.removeProperty('--tilt-y');
+            }}
+          >
             <b className="edition-letter" aria-hidden="true">U</b>
             <Link key={product.id} className="edition-print" to={`/producto/${product.id}`} aria-label={`Ver ${product.name}`}>
               <ProductPhoto product={product} eager />

@@ -4,11 +4,11 @@
 
 ## Propósito
 
-Ser el único punto HTTP de entrada para el frontend y enrutar las llamadas de autenticación al `auth-service`.
+Ser el único punto HTTP de entrada para el frontend y enrutar las llamadas de autenticación al `users-service`.
 
 ## Requisitos y aceptación
 
-- **GW-01:** enrutar `/api/auth/*` a `http://auth-service:3001/auth/*`, manteniendo método, cuerpo, cabeceras necesarias y respuesta.
+- **GW-01:** enrutar `/api/auth/*` a `http://users-service:3001/auth/*`, manteniendo método, cuerpo, cabeceras necesarias y respuesta.
 - **GW-02:** mantener rutas futuras en `routes.config.ts` sin activarlas en esta entrega.
 - **GW-03:** permitir rutas públicas `POST /api/auth/login` y `/health`; validar JWT en rutas protegidas.
 - **GW-04:** limitar CORS al origen configurado del frontend y usar timeout de 5 segundos al servicio.

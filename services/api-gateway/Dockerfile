@@ -1,7 +1,9 @@
 FROM node:24-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-COPY services/auth-service/package.json services/auth-service/package.json
+COPY services/users-service/package.json services/users-service/package.json
+COPY services/catalog-service/package.json services/catalog-service/package.json
+COPY services/orders-service/package.json services/orders-service/package.json
 COPY services/api-gateway/package.json services/api-gateway/package.json
 COPY frontend/package.json frontend/package.json
 RUN npm ci --workspace @univalle/api-gateway

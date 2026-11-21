@@ -1,4 +1,4 @@
-# Auth Service
+# Servicio de usuarios y autenticación
 
 Servicio NestJS para autenticación institucional. El dominio contiene las reglas de `Email` y usuario; los casos de uso dependen de puertos; MongoDB, bcrypt, JWT y HTTP viven en `infrastructure`.
 

@@ -4,7 +4,9 @@ Tienda virtual académica para estudiantes, docentes y personal administrativo d
 
 ## Arquitectura
 
-- `services/auth-service`: NestJS, MongoDB y arquitectura hexagonal para login, JWT y consulta de usuario.
+- `services/users-service`: NestJS, MongoDB y arquitectura hexagonal para login, JWT y consulta de usuario.
+- `services/catalog-service`: base NestJS del catálogo, con `GET /health` en el puerto interno `3002`.
+- `services/orders-service`: base NestJS de pedidos, con `GET /health` en el puerto interno `3003`.
 - `services/api-gateway`: NestJS; único punto HTTP que usa el frontend y proxy de `/api/auth/*`.
 - `frontend`: React, Vite y TypeScript; catálogo, producto, búsqueda, recomendados, carrito, pedidos y checkout de demostración.
 - `users-db`: MongoDB privada del servicio de autenticación.
@@ -31,19 +33,19 @@ Usuarios de desarrollo (el seed no corre en producción):
 | Docente | `carlos.ruiz@correounivalle.edu.co` | `Univalle2026*` |
 | Administrativo | `marta.diaz@correounivalle.edu.co` | `Univalle2026*` |
 
-Frontend: `http://localhost:3000`. Gateway: `http://localhost:8080`; salud en `/health`. Auth service: puerto `3001`; salud en `/health`. El login debe realizarse por el Gateway en `POST /api/auth/login`.
+Frontend: `http://localhost:3000`. Gateway: `http://localhost:8080`; salud en `/health`. Servicio de usuarios: puerto `3001`; salud en `/health`. El login debe realizarse por el Gateway en `POST /api/auth/login`.
 
 ## Desarrollo local
 
 1. Copia `.env.example` a `.env`. Para MongoDB local, usa `MONGO_URI=mongodb://127.0.0.1:27017/univalle_users`.
 2. Instala las dependencias desde la raíz: `npm install`.
-3. En terminales separadas ejecuta `npm run dev:auth`, `npm run dev:gateway` y `npm run dev:frontend`.
+3. En terminales separadas ejecuta `npm run dev:users`, `npm run dev:catalog`, `npm run dev:orders`, `npm run dev:gateway` y `npm run dev:frontend`.
 
 El frontend usa `VITE_API_URL` para la URL pública del Gateway. El login acepta únicamente correos `@correounivalle.edu.co`. Los datos mock de comercio son locales; no se realiza ningún pago real.
 
 ## Configuración
 
-Consulta `.env.example`. No guardes secretos reales en GitHub. `JWT_SECRET` debe ser idéntico en auth-service y Gateway. El JWT expira en una hora. `FRONTEND_ORIGIN` limita CORS. Cada servicio mantiene su propia configuración y despliegue en Docker Compose.
+Consulta `.env.example`. No guardes secretos reales en GitHub. `JWT_SECRET` debe ser idéntico en users-service y Gateway. El JWT expira en una hora. `FRONTEND_ORIGIN` limita CORS. Cada servicio mantiene su propia configuración y despliegue en Docker Compose.
 
 ## Documentación SDD
 
@@ -56,4 +58,4 @@ Consulta `.env.example`. No guardes secretos reales en GitHub. `JWT_SECRET` debe
 
 ## Build
 
-`npm run build` compila los workspaces de auth-service, Gateway y frontend.
+`npm run build` compila los workspaces de usuarios, catálogo, pedidos, Gateway y frontend.
