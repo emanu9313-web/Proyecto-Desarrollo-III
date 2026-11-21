@@ -6,7 +6,11 @@ import { routesConfig } from './routes.config';
 @Controller('api/auth')
 @UseGuards(GatewayAuthGuard)
 export class AuthProxyController {
+<<<<<<< HEAD
   @All('{*path}')
+=======
+  @All('*')
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
   async proxy(@Req() request: Request, @Res() response: Response): Promise<void> {
     const target = routesConfig['/api/auth/*'];
     const suffix = request.originalUrl.replace(/^\/api\/auth/, '') || '/';

@@ -7,6 +7,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2022",
+<<<<<<< HEAD
     "rootDir": "./src",
     "sourceMap": true,
     "outDir": "./dist",
@@ -17,5 +18,15 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true
+=======
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
   }
 }

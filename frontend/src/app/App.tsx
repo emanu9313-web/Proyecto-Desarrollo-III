@@ -2,8 +2,12 @@ import { FormEvent, ReactNode, useEffect, useState } from 'react';
 import { Link, Navigate, Route, Routes, useLocation, useNavigate, useSearchParams, useParams } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { useCart } from './CartContext';
+<<<<<<< HEAD
 import { catalogRepository } from '../modules/catalog/adapters/mock-catalog.repository';
 import type { Product } from '../modules/catalog/ports/catalog.repository';
+=======
+import { catalogRepository, Product } from '../modules/catalog/adapters/mock-catalog.repository';
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 import { searchRepository } from '../modules/search/adapters/mock-search.repository';
 import { recommendationsRepository } from '../modules/recommendations/adapters/mock-recommendations.repository';
 import { ordersRepository } from '../modules/orders/adapters/mock-orders.repository';

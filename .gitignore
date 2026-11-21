@@ -1,9 +1,14 @@
 node_modules/
 **/node_modules/
+<<<<<<< HEAD
 .cache/
 dist/
 coverage/
 *.tsbuildinfo
+=======
+dist/
+coverage/
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 .env
 **/.env
 .DS_Store

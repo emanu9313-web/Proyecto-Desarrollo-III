@@ -1,6 +1,10 @@
 # Especificación: servicio de usuarios y autenticación
 
+<<<<<<< HEAD
 **Estado:** aprobada por el usuario para la Entrega 1.
+=======
+**Estado:** propuesta para revisión; aún no aprobada.
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 
 ## Propósito y alcance
 

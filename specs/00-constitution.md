@@ -1,6 +1,10 @@
 # Constitución del proyecto Univalle Shop
 
+<<<<<<< HEAD
 **Estado:** aprobada por el usuario para la Entrega 1.
+=======
+**Estado:** propuesta para revisión; aún no aprobada.
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 
 Estas reglas condensan las instrucciones de los documentos del curso y de la Guía SDD de la Entrega 1. Si otro requisito las contradice, registrar la discrepancia y resolverla antes de implementar.
 
@@ -40,4 +44,8 @@ Trabajar en cambios pequeños y documentar avances. La guía propone commits con
 
 ## Discrepancia pendiente
 
+<<<<<<< HEAD
 La primera página de la guía enumera “registro de usuarios desde la UI (solo funcional)” dentro de lo que se debe construir; la sección de alcance detallado, el prompt maestro y la hoja de ruta ubican el registro de usuarios en la Entrega 2. Para evitar ampliar el alcance contradictoriamente, el usuario aprobó excluir el registro de Entrega 1 y limitarse al login descrito en la sección 6.
+=======
+La primera página de la guía enumera “registro de usuarios desde la UI (solo funcional)” dentro de lo que se debe construir; la sección de alcance detallado, el prompt maestro y la hoja de ruta ubican el registro de usuarios en la Entrega 2. Esta propuesta excluye el registro de Entrega 1 y se limita al login descrito en la sección 6 hasta que se apruebe o se enmiende explícitamente.
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)

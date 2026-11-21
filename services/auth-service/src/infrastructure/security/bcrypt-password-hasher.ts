@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
+<<<<<<< HEAD
 import * as bcrypt from 'bcryptjs';
+=======
+import * as bcrypt from 'bcrypt';
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 import { PasswordHasher } from '../../application/ports/auth.ports';
 
 @Injectable()

@@ -1,6 +1,10 @@
 # Plan técnico: servicio de usuarios y autenticación
 
+<<<<<<< HEAD
 **Estado:** aprobado como diseño de la Entrega 1.
+=======
+**Estado:** propuesta para revisión; depende de la aprobación de `spec.md`.
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 
 ## Estructura hexagonal
 

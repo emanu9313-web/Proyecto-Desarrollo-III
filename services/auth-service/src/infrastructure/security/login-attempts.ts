@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+=======
+import { Injectable, TooManyRequestsException } from '@nestjs/common';
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 
 const WINDOW_MS = 60_000;
 const MAX_FAILURES = 5;
@@ -10,11 +14,19 @@ export class LoginAttempts {
   assertAllowed(ip: string) {
     const recent = this.getRecent(ip);
     if (recent.length >= MAX_FAILURES) {
+<<<<<<< HEAD
       throw new HttpException({
         statusCode: 429,
         code: 'LOGIN_RATE_LIMITED',
         message: 'Demasiados intentos fallidos. Espera un minuto e inténtalo de nuevo.',
       }, HttpStatus.TOO_MANY_REQUESTS);
+=======
+      throw new TooManyRequestsException({
+        statusCode: 429,
+        code: 'LOGIN_RATE_LIMITED',
+        message: 'Demasiados intentos fallidos. Espera un minuto e inténtalo de nuevo.',
+      });
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
     }
   }
 

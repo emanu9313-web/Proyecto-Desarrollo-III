@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+=======
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 import { Request } from 'express';
 import { LoginUseCase } from '../../application/use-cases/login.use-case';
 import { GetCurrentUserUseCase } from '../../application/use-cases/get-current-user.use-case';
@@ -20,7 +24,10 @@ export class AuthController {
   ) {}
 
   @Post('login')
+<<<<<<< HEAD
   @HttpCode(HttpStatus.OK)
+=======
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
   async signIn(@Body() body: LoginDto, @Req() request: Request) {
     const forwardedFor = request.headers['x-forwarded-for'];
     const ip = (Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor?.split(',')[0])?.trim() || request.ip || 'unknown';

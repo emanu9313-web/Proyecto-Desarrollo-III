@@ -1,6 +1,10 @@
 # Tareas: servicio de usuarios y autenticación
 
+<<<<<<< HEAD
 **Estado:** aprobadas para la Entrega 1; el progreso se registra en el changelog y el PR de entrega.
+=======
+**Estado:** propuesta para revisión; ejecutar después de aprobar `spec.md` y `plan.md`.
+>>>>>>> f82e1 (Entrega 2: proyecto Univalle Shop)
 
 1. Crear el esqueleto NestJS y configuración de lint/format para `auth-service`.
 2. Implementar `Email` y errores del dominio; cubrir normalización y reglas de dominio.
